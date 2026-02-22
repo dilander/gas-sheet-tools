@@ -178,7 +178,7 @@ function showDownloadLink(file) {
       <html>
         <body style="font-family: sans-serif; font-size: 14px; text-align: center; padding: 20px;">
           <p>エクスポート完了</p>
-          <p style="font-size: 12px; color: gray;">(Markdown見出しH4最適化・インデント適用済み)</p>
+          <p style="font-size: 12px; color: gray;">保存先: ${file.getName()}</p>
           <br>
           <a href="${downloadUrl}" target="_blank"
              style="display: inline-block; padding: 10px 20px; background: #4285f4; color: white; text-decoration: none; border-radius: 4px; font-weight: bold;"
