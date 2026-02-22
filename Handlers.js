@@ -15,7 +15,7 @@ function handleInstalledEdit(e) {
   const sheetName = sheet.getName();
   const newValue = range.getValue().toString();
 
-  if (range.getNumRows() > 1 || range.getNumColumns() > 1 || !newValue) return;
+  if (range.getNumRows() > 1 || range.getNumColumns() > 1) return;
 
   const backupValue = getBackupValueFast(sheetName, range);
 
