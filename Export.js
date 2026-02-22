@@ -46,7 +46,7 @@ function exportSheetsToMarkdown() {
 function buildMarkdown(spreadsheet, ssName, timestamp) {
   let md = `# Source: ${ssName}\n`;
   md += `> Export Date: ${timestamp}\n\n`;
-  md += `--- \n\n`;
+  md += `---\n\n`;
 
   spreadsheet.getSheets().forEach(sheet => {
     md += buildSheetMarkdown(sheet);
@@ -89,7 +89,7 @@ function buildSheetMarkdown(sheet) {
       const colIdx = validCols[k];
       const headerName = headers[colIdx].toString();
       const cellValue = row[colIdx];
-      if (cellValue === "" || cellValue === undefined) continue;
+      if (cellValue === "") continue;
 
       md += formatCellValue(headerName, cellValue);
     }
