@@ -20,8 +20,9 @@ function onOpen() {
 }
 
 /**
- * バックアップファイルのIDを特定してスクリプトキャッシュに格納する。
+ * バックアップファイルのIDとシートデータをスクリプトキャッシュに格納する。
  * backupフォルダ内の "BACKUP_{スプレッドシート名}" を探す。
+ * シートデータはバックアップファイルから読み込む（currentは既に編集済みの可能性があるため）。
  * @returns {string|null} バックアップファイルのID。見つからない場合はnull
  */
 function prepareBackupCache() {
@@ -37,8 +38,23 @@ function prepareBackupCache() {
   if (!files.hasNext()) return null;
 
   const backupId = files.next().getId();
-  CacheService.getScriptCache().put(
-    CONFIG.CACHE.BACKUP_FILE_ID_KEY, backupId, CONFIG.CACHE.TTL_SECONDS
-  );
+  const cache = CacheService.getScriptCache();
+  cache.put(CONFIG.CACHE.BACKUP_FILE_ID_KEY, backupId, CONFIG.CACHE.TTL_SECONDS);
+
+  try {
+    const backupSs = SpreadsheetApp.openById(backupId);
+    backupSs.getSheets().forEach(sheet => {
+      const data = sheet.getDataRange().getValues();
+      const cacheKey = CONFIG.CACHE.BACKUP_DATA_PREFIX + sheet.getName();
+      try {
+        cache.put(cacheKey, JSON.stringify(data), CONFIG.CACHE.TTL_SECONDS);
+      } catch (e) {
+        console.warn(`Cache put failed for sheet "${sheet.getName()}": ${e.toString()}`);
+      }
+    });
+  } catch (e) {
+    console.warn("Failed to cache backup sheet data: " + e.toString());
+  }
+
   return backupId;
 }
