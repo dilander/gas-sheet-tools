@@ -48,7 +48,9 @@ function getBackupValueFast(sheetName, range) {
       if (data[row] && data[row][col] !== undefined) {
         return data[row][col].toString();
       }
-    } catch (e) {}
+    } catch (e) {
+      console.error("Cache parse failed: " + e.toString());
+    }
   }
 
   // 2. ファイルからフォールバック
