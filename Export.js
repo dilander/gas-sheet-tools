@@ -27,6 +27,7 @@ function exportSheetsToMarkdown() {
 
   try {
     const file = exportFolder.createFile(fileName, markdown, MimeType.PLAIN_TEXT);
+    console.log(`[exportSheetsToMarkdown]: エクスポート完了: ${fileName}`);
     showDownloadLink(file);
   } catch (e) {
     console.error(`[exportSheetsToMarkdown]: エクスポートに失敗しました: ${e.toString()}`);

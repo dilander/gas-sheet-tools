@@ -56,5 +56,6 @@ function prepareBackupCache() {
     console.warn(`[prepareBackupCache]: バックアップのシートデータキャッシュに失敗しました: ${e.toString()}`);
   }
 
+  console.log("[prepareBackupCache]: キャッシュを更新しました");
   return backupId;
 }
