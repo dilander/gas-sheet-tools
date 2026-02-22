@@ -116,7 +116,7 @@ function formatCellValue(headerName, cellValue) {
     return formatCodeCell(headerName, cellValue, codeMatch[1].toLowerCase());
   }
 
-  return `- **${headerName}**: ${cellValue}\n`;
+  return `- ${headerName}: ${cellValue}\n`;
 }
 
 /**
@@ -148,7 +148,7 @@ function formatMarkdownCell(headerName, cellValue) {
   }
 
   const indented = lines.map(line => '  ' + line).join('\n');
-  return `- **${headerName}**: \n${indented}\n`;
+  return `- ${headerName}: \n${indented}\n`;
 }
 
 /**
@@ -161,7 +161,7 @@ function formatMarkdownCell(headerName, cellValue) {
 function formatCodeCell(headerName, cellValue, lang) {
   const codeBlock = `\`\`\`${lang}\n${cellValue}\n\`\`\``;
   const indented = codeBlock.split('\n').map(line => '  ' + line).join('\n');
-  return `- **${headerName}**: \n${indented}\n`;
+  return `- ${headerName}: \n${indented}\n`;
 }
 
 /**
