@@ -191,7 +191,6 @@ function showDownloadLink(file) {
               link.href = "${downloadUrl}"; link.target = "_blank";
               document.body.appendChild(link);
               link.click();
-              setTimeout(function(){ google.script.host.close(); }, 5000);
             })();
           </script>
         </body>
