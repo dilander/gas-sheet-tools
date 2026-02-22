@@ -116,7 +116,12 @@ function formatCellValue(headerName, cellValue) {
     return formatCodeCell(headerName, cellValue, codeMatch[1].toLowerCase());
   }
 
-  return `- ${headerName}: ${cellValue}\n`;
+  const strValue = cellValue.toString();
+  if (strValue.indexOf('\n') !== -1) {
+    const indented = strValue.split('\n').map(line => '  ' + line).join('\n');
+    return `- ${headerName}: \n${indented}\n`;
+  }
+  return `- ${headerName}: ${strValue}\n`;
 }
 
 /**
