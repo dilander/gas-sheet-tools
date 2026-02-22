@@ -29,8 +29,10 @@ function exportSheetsToMarkdown() {
     const file = exportFolder.createFile(fileName, markdown, MimeType.PLAIN_TEXT);
     showDownloadLink(file);
   } catch (e) {
-    const ui = SpreadsheetApp.getUi();
-    if (ui) ui.alert("エラー: " + e.toString());
+    console.error("exportSheetsToMarkdown failed: " + e.toString());
+    try {
+      SpreadsheetApp.getUi().alert("エラー: " + e.toString());
+    } catch (_) {}
   }
 }
 
