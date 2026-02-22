@@ -46,7 +46,7 @@ function getBackupValueFast(sheetName, range) {
         return data[row][col].toString();
       }
     } catch (e) {
-      console.error("Cache parse failed: " + e.toString());
+      console.error(`[getBackupValueFast]: キャッシュのパースに失敗しました: ${e.toString()}`);
     }
   }
 
@@ -60,8 +60,8 @@ function getBackupValueFast(sheetName, range) {
     const backupSheet = backupFile.getSheetByName(sheetName);
     if (!backupSheet) return null;
     return backupSheet.getRange(range.getA1Notation()).getValue().toString();
-  } catch (err) {
-    console.error("Backup file error: " + err);
+  } catch (e) {
+    console.error(`[getBackupValueFast]: バックアップファイルの読み込みに失敗しました: ${e.toString()}`);
     return null;
   }
 }

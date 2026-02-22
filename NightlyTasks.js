@@ -11,13 +11,13 @@
  */
 function nightlyBuild() {
   const now = new Date();
-  console.log(`[Nightly Build Start]: ${Utilities.formatDate(now, CONFIG.EXPORT.TIMEZONE, "yyyy-MM-dd HH:mm:ss")}`);
+  console.log(`[nightlyBuild]: 開始 ${Utilities.formatDate(now, CONFIG.EXPORT.TIMEZONE, "yyyy-MM-dd HH:mm:ss")}`);
   try {
     exportSheetsToMarkdown();
     resetAndBackup();
-    console.log("[Nightly Build Success]: Artifact generated.");
+    console.log("[nightlyBuild]: 完了");
   } catch (e) {
-    console.error("[Nightly Build Failed]: " + e.toString());
+    console.error(`[nightlyBuild]: 失敗: ${e.toString()}`);
   }
 }
 
@@ -61,9 +61,9 @@ function resetAndBackup() {
     try {
       cache.put(cacheKey, JSON.stringify(data), CONFIG.CACHE.TTL_SECONDS);
     } catch (e) {
-      console.warn(`Cache put failed for sheet "${sheet.getName()}": ${e.toString()}`);
+      console.warn(`[resetAndBackup]: シート "${sheet.getName()}" のキャッシュ書き込みに失敗しました: ${e.toString()}`);
     }
   });
 
-  console.log("Backup and Multi-sheet Cache updated.");
+  console.log("[resetAndBackup]: バックアップとキャッシュを更新しました");
 }

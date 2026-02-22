@@ -29,7 +29,7 @@ function exportSheetsToMarkdown() {
     const file = exportFolder.createFile(fileName, markdown, MimeType.PLAIN_TEXT);
     showDownloadLink(file);
   } catch (e) {
-    console.error("exportSheetsToMarkdown failed: " + e.toString());
+    console.error(`[exportSheetsToMarkdown]: エクスポートに失敗しました: ${e.toString()}`);
     try {
       SpreadsheetApp.getUi().alert("エラー: " + e.toString());
     } catch (_) {}

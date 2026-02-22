@@ -49,11 +49,11 @@ function prepareBackupCache() {
       try {
         cache.put(cacheKey, JSON.stringify(data), CONFIG.CACHE.TTL_SECONDS);
       } catch (e) {
-        console.warn(`Cache put failed for sheet "${sheet.getName()}": ${e.toString()}`);
+        console.warn(`[prepareBackupCache]: シート "${sheet.getName()}" のキャッシュ書き込みに失敗しました: ${e.toString()}`);
       }
     });
   } catch (e) {
-    console.warn("Failed to cache backup sheet data: " + e.toString());
+    console.warn(`[prepareBackupCache]: バックアップのシートデータキャッシュに失敗しました: ${e.toString()}`);
   }
 
   return backupId;
