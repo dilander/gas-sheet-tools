@@ -26,8 +26,6 @@ const CONFIG = {
   /** @property {Object} BACKUP - バックアップ設定 */
   BACKUP: {
     NAME_PREFIX: "BACKUP_",
-    /** @type {string} キャッシュに載せるシート範囲（100KB制限に注意） */
-    CACHE_RANGE: "A1:C100",
   },
   /** @type {string} エクスポート除外列の識別キーワード */
   IGNORE_KEYWORD: "無視",

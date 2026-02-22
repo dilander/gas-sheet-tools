@@ -54,10 +54,15 @@ function resetAndBackup() {
   // 3. IDとシートデータをキャッシュ
   cache.put(CONFIG.CACHE.BACKUP_FILE_ID_KEY, backupFile.getId(), CONFIG.CACHE.TTL_SECONDS);
 
+  // シートデータ全体をキャッシュ（100KB/キー制限に注意: 大規模シートはキャッシュミスで直接読み込みにフォールバック）
   ss.getSheets().forEach(sheet => {
-    const data = sheet.getRange(CONFIG.BACKUP.CACHE_RANGE).getValues();
+    const data = sheet.getDataRange().getValues();
     const cacheKey = CONFIG.CACHE.BACKUP_DATA_PREFIX + sheet.getName();
-    cache.put(cacheKey, JSON.stringify(data), CONFIG.CACHE.TTL_SECONDS);
+    try {
+      cache.put(cacheKey, JSON.stringify(data), CONFIG.CACHE.TTL_SECONDS);
+    } catch (e) {
+      console.warn(`Cache put failed for sheet "${sheet.getName()}": ${e.toString()}`);
+    }
   });
 
   console.log("Backup and Multi-sheet Cache updated.");
