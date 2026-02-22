@@ -199,6 +199,6 @@ function showDownloadLink(file) {
     const output = HtmlService.createHtmlOutput(html).setHeight(190).setWidth(350);
     ui.showModalDialog(output, "Export Complete");
   } catch (e) {
-    console.log("Background build detected. Skipping UI.");
+    // バックグラウンド実行時はUIが使えないためスキップ
   }
 }

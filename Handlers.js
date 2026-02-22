@@ -19,9 +19,6 @@ function handleInstalledEdit(e) {
 
   const backupValue = getBackupValueFast(sheetName, range);
 
-  console.log(`Sheet: ${sheetName} | Cell: ${range.getA1Notation()}`);
-  console.log(`Backup Value (first 20 chars): ${backupValue ? backupValue.substring(0, 20) : "NULL"}`);
-
   if (backupValue === null) return;
 
   applyLineDiffHighlight(range, newValue, backupValue);
