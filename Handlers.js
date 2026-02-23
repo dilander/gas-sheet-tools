@@ -95,7 +95,7 @@ function applyLineDiffHighlight(range, newValue, oldValue) {
   const richTextBuilder = SpreadsheetApp.newRichTextValue().setText(cleanNew);
   const diffTextStyle = SpreadsheetApp.newTextStyle().setForegroundColor(textColor).build();
 
-  let hasChange = false;
+  let hasChange = cleanNew !== cleanOld;
   let currentPos = 0;
 
   newLines.forEach((newLine, lineIdx) => {
@@ -107,7 +107,6 @@ function applyLineDiffHighlight(range, newValue, oldValue) {
         const charPos = currentPos + i;
         if (charPos < cleanNew.length) {
           richTextBuilder.setTextStyle(charPos, charPos + 1, diffTextStyle);
-          hasChange = true;
         }
       }
     }
