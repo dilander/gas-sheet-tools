@@ -68,7 +68,9 @@ function getBackupValueFast(sheetName, range) {
 
 /**
  * セル内改行（LF）ベースの行単位差分ハイライトを適用する。
- * バックアップに存在しない行を青字にし、変更なしなら既定色に戻す。
+ * 変更がある場合、セル全体の背景色を設定し、変更文字に色を付ける。
+ * 1行目（ヘッダー）は別の色でハイライトする。
+ * 変更なしなら既定色と背景に戻す。
  * @param {GoogleAppsScript.Spreadsheet.Range} range - 対象セル範囲
  * @param {string} newValue - 編集後の値
  * @param {string} oldValue - バックアップの値
@@ -80,33 +82,46 @@ function applyLineDiffHighlight(range, newValue, oldValue) {
   const cleanOld = normalize(oldValue);
 
   const newLines = cleanNew.split("\n");
-  const oldLinesSet = new Set(cleanOld.split("\n").map(line => line.trim()));
+  const oldLines = cleanOld.split("\n");
+
+  const isHeader = range.getRow() === 1;
+  const textColor = isHeader
+    ? CONFIG.DIFF_HIGHLIGHT.HEADER_TEXT_COLOR
+    : CONFIG.DIFF_HIGHLIGHT.TEXT_COLOR;
+  const bgColor = isHeader
+    ? CONFIG.DIFF_HIGHLIGHT.HEADER_BACKGROUND_COLOR
+    : CONFIG.DIFF_HIGHLIGHT.BACKGROUND_COLOR;
 
   const richTextBuilder = SpreadsheetApp.newRichTextValue().setText(cleanNew);
-  const blueStyle = SpreadsheetApp.newTextStyle().setForegroundColor("blue").build();
+  const diffTextStyle = SpreadsheetApp.newTextStyle().setForegroundColor(textColor).build();
 
   let hasChange = false;
   let currentPos = 0;
 
-  newLines.forEach((line) => {
-    const trimmedLine = line.trim();
+  newLines.forEach((newLine, lineIdx) => {
+    const oldLine = oldLines[lineIdx] || "";
 
-    if (trimmedLine !== "" && !oldLinesSet.has(trimmedLine)) {
-      const start = currentPos;
-      const end = currentPos + line.length;
-
-      if (start < cleanNew.length) {
-        richTextBuilder.setTextStyle(start, Math.min(end, cleanNew.length), blueStyle);
-        hasChange = true;
+    // 行単位で文字単位の差分を検出
+    for (let i = 0; i < newLine.length; i++) {
+      if (newLine[i] !== oldLine[i]) {
+        const charPos = currentPos + i;
+        if (charPos < cleanNew.length) {
+          richTextBuilder.setTextStyle(charPos, charPos + 1, diffTextStyle);
+          hasChange = true;
+        }
       }
     }
-    currentPos += line.length + 1;
+
+    currentPos += newLine.length + 1;
   });
 
   if (hasChange) {
     range.setRichTextValue(richTextBuilder.build());
+    range.setBackground(bgColor);
   } else {
-    const color = (range.getRow() === 1) ? "white" : "black";
+    const color = isHeader ? CONFIG.CELL_COLORS.HEADER_TEXT : CONFIG.CELL_COLORS.DEFAULT_TEXT;
+    const background = isHeader ? CONFIG.CELL_COLORS.HEADER_BACKGROUND : CONFIG.CELL_COLORS.DEFAULT_BACKGROUND;
     range.setFontColor(color);
+    range.setBackground(background);
   }
 }

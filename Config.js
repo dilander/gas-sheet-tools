@@ -33,6 +33,28 @@ const CONFIG = {
   HEADING_BASE_LEVEL: 4,
   /** @type {RegExp} コードブロック化する列名パターン */
   CODE_LANGUAGES: /(Python|Handlebars|Mermaid)/i,
+  /** @property {Object} CELL_COLORS - セルの既定色 */
+  CELL_COLORS: {
+    /** @type {string} 通常セルの背景色 */
+    DEFAULT_BACKGROUND: "white",
+    /** @type {string} 通常セルの文字色 */
+    DEFAULT_TEXT: "black",
+    /** @type {string} ヘッダー行の背景色（暗い青2） */
+    HEADER_BACKGROUND: "#0B5394",
+    /** @type {string} ヘッダー行の文字色 */
+    HEADER_TEXT: "white",
+  },
+  /** @property {Object} DIFF_HIGHLIGHT - 差分ハイライト設定 */
+  DIFF_HIGHLIGHT: {
+    /** @type {string} 変更行の背景色（ライトブルー） */
+    BACKGROUND_COLOR: "#E3F2FD",
+    /** @type {string} 変更文字色（青） */
+    TEXT_COLOR: "blue",
+    /** @type {string} ヘッダー行（1行目）の変更時背景色（ダークオレンジ系） */
+    HEADER_BACKGROUND_COLOR: "#FF6B35",
+    /** @type {string} ヘッダー行（1行目）の変更文字色（青） */
+    HEADER_TEXT_COLOR: "blue",
+  },
 };
 
 /**
