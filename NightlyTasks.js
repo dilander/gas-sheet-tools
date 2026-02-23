@@ -35,8 +35,14 @@ function resetAndBackup() {
   ss.getSheets().forEach(sheet => {
     const lr = sheet.getLastRow(), lc = sheet.getLastColumn();
     if (lr > 0 && lc > 0) {
-      sheet.getDataRange().setFontColor("black");
-      sheet.getRange(1, 1, 1, lc).setFontColor("white");
+      const headerRange = sheet.getRange(1, 1, 1, lc);
+      headerRange.setFontColor(CONFIG.CELL_COLORS.HEADER_TEXT);
+      headerRange.setBackground(CONFIG.CELL_COLORS.HEADER_BACKGROUND);
+      if (lr > 1) {
+        const bodyRange = sheet.getRange(2, 1, lr - 1, lc);
+        bodyRange.setFontColor(CONFIG.CELL_COLORS.DEFAULT_TEXT);
+        bodyRange.setBackground(CONFIG.CELL_COLORS.DEFAULT_BACKGROUND);
+      }
     }
   });
 
