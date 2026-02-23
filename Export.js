@@ -116,12 +116,31 @@ function formatCellValue(headerName, cellValue) {
     return formatCodeCell(headerName, cellValue, codeMatch[1].toLowerCase());
   }
 
+  const cleanHeaderName = removeMetadata(headerName);
   const strValue = cellValue.toString();
   if (strValue.indexOf('\n') !== -1) {
     const indented = strValue.split('\n').map(line => '  ' + line).join('\n');
-    return `- ${headerName}: \n${indented}\n`;
+    return `- ${cleanHeaderName}: \n${indented}\n`;
   }
-  return `- ${headerName}: ${strValue}\n`;
+  return `- ${cleanHeaderName}: ${strValue}\n`;
+}
+
+/**
+ * 列名から処理に使用するメタデータのみを削除する。
+ * 削除対象: "（無視）"、"（Markdown）"、"（Python）"、"（Handlebars）"、"（Mermaid）"、"（YAML）"
+ * その他の括弧付きメタデータ（例: "（調査で判明）"、"（18禁解禁時）"）は保持する。
+ * @param {string} headerName - 元の列名
+ * @returns {string} 処理用メタデータを除去した列名
+ */
+function removeMetadata(headerName) {
+  return headerName
+    .replace(/[（(]無視[）)]/g, '')
+    .replace(/[（(]Markdown[）)]/g, '')
+    .replace(/[（(]Python[）)]/g, '')
+    .replace(/[（(]Handlebars[）)]/g, '')
+    .replace(/[（(]Mermaid[）)]/g, '')
+    .replace(/[（(]YAML[）)]/g, '')
+    .trim();
 }
 
 /**
@@ -152,8 +171,9 @@ function formatMarkdownCell(headerName, cellValue) {
     });
   }
 
+  const cleanHeaderName = removeMetadata(headerName);
   const indented = lines.map(line => '  ' + line).join('\n');
-  return `- ${headerName}: \n${indented}\n`;
+  return `- ${cleanHeaderName}: \n${indented}\n`;
 }
 
 /**
@@ -164,9 +184,10 @@ function formatMarkdownCell(headerName, cellValue) {
  * @returns {string} コードブロック付きのMarkdown行
  */
 function formatCodeCell(headerName, cellValue, lang) {
+  const cleanHeaderName = removeMetadata(headerName);
   const codeBlock = `\`\`\`${lang}\n${cellValue}\n\`\`\``;
   const indented = codeBlock.split('\n').map(line => '  ' + line).join('\n');
-  return `- ${headerName}: \n${indented}\n`;
+  return `- ${cleanHeaderName}: \n${indented}\n`;
 }
 
 /**
