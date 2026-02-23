@@ -5,10 +5,10 @@
  */
 
 /**
- * スプレッドシートが開かれたときに実行されるシンプルトリガー。
+ * スプレッドシートが開かれたときに実行されるインストール可能トリガー。
  * ツールメニューを追加し、バックアップキャッシュを準備する。
  */
-function onOpen() {
+function handleOnOpen() {
   SpreadsheetApp.getUi()
     .createMenu('🛠️ ツール')
     .addItem('Markdownエクスポート実行', 'exportSheetsToMarkdown')
