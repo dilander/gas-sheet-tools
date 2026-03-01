@@ -11,7 +11,8 @@
 function handleOnOpen() {
   SpreadsheetApp.getUi()
     .createMenu('🛠️ ツール')
-    .addItem('Markdownエクスポート実行', 'exportSheetsToMarkdown')
+    .addItem('エクスポート（Combine）', 'exportSheetsToMarkdown')
+    .addItem('エクスポート（Separate）', 'exportSeparateMode')
     .addSeparator()
     .addItem('バックアップ更新（差分リセット）', 'resetAndBackup')
     .addToUi();

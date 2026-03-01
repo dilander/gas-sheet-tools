@@ -14,6 +14,7 @@ function nightlyBuild() {
   console.log(`[nightlyBuild]: 開始 ${Utilities.formatDate(now, CONFIG.EXPORT.TIMEZONE, "yyyy-MM-dd HH:mm:ss")}`);
   try {
     exportSheetsToMarkdown();
+    exportSeparateMode();
     resetAndBackup();
     console.log("[nightlyBuild]: 完了");
   } catch (e) {

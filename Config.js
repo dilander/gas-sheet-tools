@@ -32,7 +32,7 @@ const CONFIG = {
   /** @type {number} Markdown見出しのオフセット基準レベル */
   HEADING_BASE_LEVEL: 4,
   /** @type {RegExp} コードブロック化する列名パターン */
-  CODE_LANGUAGES: /(Python|Handlebars|Mermaid)/i,
+  CODE_LANGUAGES: /(Python|Handlebars|Mermaid|YAML)/i,
   /** @property {Object} CELL_COLORS - セルの既定色 */
   CELL_COLORS: {
     /** @type {string} 通常セルの背景色 */
